@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet.wms.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/Lauksaimniecbaskultras_3.js"></script>
+        <script src="data/Zemeslietojumaveids_4.js"></script>
+        <script src="data/Ainavzemes_5.js"></script>
+        <script src="data/ADTAdamovasezersrobea_6.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[56.54377221411826,27.351050038986426],[56.58717999161417,27.43162673099413]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_TopogrfiskkarteM110000arreljefanojumu_0');
+        map.getPane('pane_TopogrfiskkarteM110000arreljefanojumu_0').style.zIndex = 400;
+        var layer_TopogrfiskkarteM110000arreljefanojumu_0 = L.WMS.layer("http://lvmgeoserver.lvm.lv/geoserver/ows", "public:Topo10DTM", {
+            pane: 'pane_TopogrfiskkarteM110000arreljefanojumu_0',
+            format: 'image/png',
+            uppercase: true,
+            transparent: true,
+            continuousWorld : true,
+            tiled: true,
+            info_format: 'text/html',
+            opacity: 1,
+            identify: false,
+            attribution: '',
+        });
+        map.addLayer(layer_TopogrfiskkarteM110000arreljefanojumu_0);
+        map.createPane('pane_Digitlsreljefamodelis_1');
+        map.getPane('pane_Digitlsreljefamodelis_1').style.zIndex = 401;
+        var layer_Digitlsreljefamodelis_1 = L.WMS.layer("http://lvmgeoserver.lvm.lv/geoserver/ows", "public:ZemeLKS", {
+            pane: 'pane_Digitlsreljefamodelis_1',
+            format: 'image/png',
+            uppercase: true,
+            transparent: true,
+            continuousWorld : true,
+            tiled: true,
+            info_format: 'text/html',
+            opacity: 0,
+            identify: false,
+            attribution: '',
+        });
+        map.addLayer(layer_Digitlsreljefamodelis_1);
+        map.createPane('pane_Ortofotokarte_2');
+        map.getPane('pane_Ortofotokarte_2').style.zIndex = 402;
+        var layer_Ortofotokarte_2 = L.WMS.layer("http://lvmgeoserver.lvm.lv/geoserver/ows", "public:Orto_LKS", {
+            pane: 'pane_Ortofotokarte_2',
+            format: 'image/png',
+            uppercase: true,
+            transparent: true,
+            continuousWorld : true,
+            tiled: true,
+            info_format: 'text/html',
+            opacity: 1,
+            identify: false,
+            attribution: '',
+        });
+        map.addLayer(layer_Ortofotokarte_2);
+        function pop_Lauksaimniecbaskultras_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PARCEL_ID</th>\
+                        <td>' + (feature.properties['PARCEL_ID'] !== null ? autolinker.link(feature.properties['PARCEL_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PRODUCT_CODE</th>\
+                        <td>' + (feature.properties['PRODUCT_CODE'] !== null ? autolinker.link(feature.properties['PRODUCT_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AID_FORMS</th>\
+                        <td>' + (feature.properties['AID_FORMS'] !== null ? autolinker.link(feature.properties['AID_FORMS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PRODUCT_DESCRIPTION</th>\
+                        <td>' + (feature.properties['PRODUCT_DESCRIPTION'] !== null ? autolinker.link(feature.properties['PRODUCT_DESCRIPTION'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Lauksaimniecbaskultras_3_0(feature) {
+            switch(String(feature.properties['PRODUCT_DESCRIPTION'])) {
+                case 'Aramzemē sēts stiebrzāļu un/vai lopbarības zālaugu (t.sk. proteīnaugu) maisījums':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(172,87,224,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Augļu koki un ogulāji (izņemot zemenes), ja vienlaidus platībā augošas BSA sugas katra <0,3 ha':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,129,0,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Auzas':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(145,207,74,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Auzas ar stiebrzāļu vai tauriņziežu pasēju':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(43,238,121,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Avenes':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(26,225,169,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Ābeles':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(100,103,235,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Dažādi kultūraugi nelielā aramz. platībā jeb vairāki kultūraugi audzēti vienlaidus laukā, ja katrs kultūraugs <0,3ha':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(43,212,60,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Dārzeņi, ja vienlaidus platībā augošas BSA sugas katra <0,3 ha un kopējā  aramz. platība <10 ha':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(240,35,59,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Griķi':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(188,209,70,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Ilggadīgie zālāji':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,0,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Kartupeļi, kas citur nav minēti':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(113,144,205,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Kvieši, vasaras':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(121,180,212,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Kvieši, ziemas':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(111,225,79,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Mieži, vasaras':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(29,230,236,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Papuve':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(202,144,81,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Sarkanais āboliņš':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(203,105,180,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Tritikāle, ziemas':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(233,218,140,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'Zirņi':
+                    return {
+                pane: 'pane_Lauksaimniecbaskultras_3',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(172,87,224,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Lauksaimniecbaskultras_3');
+        map.getPane('pane_Lauksaimniecbaskultras_3').style.zIndex = 403;
+        map.getPane('pane_Lauksaimniecbaskultras_3').style['mix-blend-mode'] = 'normal';
+        var layer_Lauksaimniecbaskultras_3 = new L.geoJson(json_Lauksaimniecbaskultras_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Lauksaimniecbaskultras_3',
+            layerName: 'layer_Lauksaimniecbaskultras_3',
+            pane: 'pane_Lauksaimniecbaskultras_3',
+            onEachFeature: pop_Lauksaimniecbaskultras_3,
+            style: style_Lauksaimniecbaskultras_3_0,
+        });
+        bounds_group.addLayer(layer_Lauksaimniecbaskultras_3);
+        function pop_Zemeslietojumaveids_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NAME</th>\
+                        <td>' + (feature.properties['NAME'] !== null ? autolinker.link(feature.properties['NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LANDUSE</th>\
+                        <td>' + (feature.properties['LANDUSE'] !== null ? autolinker.link(feature.properties['LANDUSE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Zemeslietojumaveids_4_0(feature) {
+            switch(String(feature.properties['LANDUSE'])) {
+                case 'akmeņu krāvums':
+                    return {
+                pane: 'pane_Zemeslietojumaveids_4',
+                opacity: 1,
+                color: 'rgba(50,50,50,0.6588235294117647)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(84,84,84,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'apbūve':
+                    return {
+                pane: 'pane_Zemeslietojumaveids_4',
+                opacity: 1,
+                color: 'rgba(229,23,41,0.6588235294117647)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,22,1,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'kapi':
+                    return {
+                pane: 'pane_Zemeslietojumaveids_4',
+                opacity: 1,
+                color: 'rgba(20,75,20,0.6588235294117647)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(20,75,20,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'krūmājs':
+                    return {
+                pane: 'pane_Zemeslietojumaveids_4',
+                opacity: 1,
+                color: 'rgba(164,23,25,0.6588235294117647)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(164,48,50,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_Zemeslietojumaveids_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(197,203,16,0.0)',
+                interactive: true,
+            }
+                    break;
+                case 'zeme zem mežiem':
+                    return {
+                pane: 'pane_Zemeslietojumaveids_4',
+                opacity: 1,
+                color: 'rgba(16,237,16,0.6588235294117647)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(16,237,16,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'zeme zem purviem':
+                    return {
+                pane: 'pane_Zemeslietojumaveids_4',
+                opacity: 1,
+                color: 'rgba(114,71,143,0.6588235294117647)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(125,97,143,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'zeme zem ūdeņiem':
+                    return {
+                pane: 'pane_Zemeslietojumaveids_4',
+                opacity: 1,
+                color: 'rgba(62,159,227,0.6588235294117647)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(100,172,227,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+                case 'zeme zem ceļiem':
+                    return {
+                pane: 'pane_Zemeslietojumaveids_4',
+                opacity: 1,
+                color: 'rgba(255,163,0,0.6588235294117647)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(237,200,77,0.6588235294117647)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Zemeslietojumaveids_4');
+        map.getPane('pane_Zemeslietojumaveids_4').style.zIndex = 404;
+        map.getPane('pane_Zemeslietojumaveids_4').style['mix-blend-mode'] = 'normal';
+        var layer_Zemeslietojumaveids_4 = new L.geoJson(json_Zemeslietojumaveids_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Zemeslietojumaveids_4',
+            layerName: 'layer_Zemeslietojumaveids_4',
+            pane: 'pane_Zemeslietojumaveids_4',
+            onEachFeature: pop_Zemeslietojumaveids_4,
+            style: style_Zemeslietojumaveids_4_0,
+        });
+        bounds_group.addLayer(layer_Zemeslietojumaveids_4);
+        map.addLayer(layer_Zemeslietojumaveids_4);
+        function pop_Ainavzemes_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">NAME</th>\
+                        <td>' + (feature.properties['NAME'] !== null ? autolinker.link(feature.properties['NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Ainavzemes_5_0(feature) {
+            switch(String(feature.properties['NAME'])) {
+                case 'Adamovas ciema urbanizētā ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(165,86,210,0.25098039215686274)',
+                interactive: true,
+            }
+                    break;
+                case 'Adamovas ezeraines ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,61,221,0.25098039215686274)',
+                interactive: true,
+            }
+                    break;
+                case 'Burzavas pauguraines mežāru ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(26,233,220,0.25098039215686274)',
+                interactive: true,
+            }
+                    break;
+                case 'Loboržu mežaines ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,163,0,0.25098039215686274)',
+                interactive: true,
+            }
+                    break;
+                case 'Rūļa salas mežaines ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,153,0,0.25098039215686274)',
+                interactive: true,
+            }
+                    break;
+                case 'Vecborisovas āraines ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(179,31,0,0.25098039215686274)',
+                interactive: true,
+            }
+                    break;
+                case 'Vizulīša ezeraines ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(81,156,222,0.25098039215686274)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        function style_Ainavzemes_5_1(feature) {
+            switch(String(feature.properties['NAME'])) {
+                case 'Adamovas ciema urbanizētā ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(159,255,190,1.0)',
+                dashArray: '10,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Adamovas ezeraines ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(159,255,190,1.0)',
+                dashArray: '10,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Burzavas pauguraines mežāru ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(159,255,190,1.0)',
+                dashArray: '10,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Loboržu mežaines ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(159,255,190,1.0)',
+                dashArray: '10,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Rūļa salas mežaines ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(159,255,190,1.0)',
+                dashArray: '10,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Vecborisovas āraines ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(159,255,190,1.0)',
+                dashArray: '10,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Vizulīša ezeraines ainavu telpa':
+                    return {
+                pane: 'pane_Ainavzemes_5',
+                opacity: 1,
+                color: 'rgba(159,255,190,1.0)',
+                dashArray: '10,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Ainavzemes_5');
+        map.getPane('pane_Ainavzemes_5').style.zIndex = 405;
+        map.getPane('pane_Ainavzemes_5').style['mix-blend-mode'] = 'normal';
+        var layer_Ainavzemes_5 = new L.geoJson.multiStyle(json_Ainavzemes_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Ainavzemes_5',
+            layerName: 'layer_Ainavzemes_5',
+            pane: 'pane_Ainavzemes_5',
+            onEachFeature: pop_Ainavzemes_5,
+            styles: [style_Ainavzemes_5_0,style_Ainavzemes_5_1,]
+        });
+        bounds_group.addLayer(layer_Ainavzemes_5);
+        map.addLayer(layer_Ainavzemes_5);
+        function pop_ADTAdamovasezersrobea_6(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Statuss</th>\
+                        <td>' + (feature.properties['STATUS'] !== null ? autolinker.link(feature.properties['STATUS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ĪADT</th>\
+                        <td>' + (feature.properties['NAME'] !== null ? autolinker.link(feature.properties['NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Kategorija</th>\
+                        <td>' + (feature.properties['CATEGORY'] !== null ? autolinker.link(feature.properties['CATEGORY'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ADTAdamovasezersrobea_6_0(feature) {
+            switch(String(feature.properties['STATUS'])) {
+                case '1':
+                    return {
+                pane: 'pane_ADTAdamovasezersrobea_6',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 4.0, 
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+                case '3':
+                    return {
+                pane: 'pane_ADTAdamovasezersrobea_6',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 4.0, 
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+                case '8':
+                    return {
+                pane: 'pane_ADTAdamovasezersrobea_6',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 4.0, 
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        function style_ADTAdamovasezersrobea_6_1(feature) {
+            switch(String(feature.properties['STATUS'])) {
+                case '1':
+                    return {
+                pane: 'pane_ADTAdamovasezersrobea_6',
+                opacity: 1,
+                color: 'rgba(213,0,213,1.0)',
+                dashArray: '10,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+                case '3':
+                    return {
+                pane: 'pane_ADTAdamovasezersrobea_6',
+                opacity: 1,
+                color: 'rgba(1,0,213,1.0)',
+                dashArray: '10,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+                case '8':
+                    return {
+                pane: 'pane_ADTAdamovasezersrobea_6',
+                opacity: 1,
+                color: 'rgba(231,113,72,1.0)',
+                dashArray: '10,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ADTAdamovasezersrobea_6');
+        map.getPane('pane_ADTAdamovasezersrobea_6').style.zIndex = 406;
+        map.getPane('pane_ADTAdamovasezersrobea_6').style['mix-blend-mode'] = 'normal';
+        var layer_ADTAdamovasezersrobea_6 = new L.geoJson.multiStyle(json_ADTAdamovasezersrobea_6, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_ADTAdamovasezersrobea_6',
+            layerName: 'layer_ADTAdamovasezersrobea_6',
+            pane: 'pane_ADTAdamovasezersrobea_6',
+            onEachFeature: pop_ADTAdamovasezersrobea_6,
+            styles: [style_ADTAdamovasezersrobea_6_0,style_ADTAdamovasezersrobea_6_1,]
+        });
+        bounds_group.addLayer(layer_ADTAdamovasezersrobea_6);
+        map.addLayer(layer_ADTAdamovasezersrobea_6);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'ĪADT "Adamovas ezers" robeža<br /><table><tr><td style="text-align: center;"><img src="legend/ADTAdamovasezersrobea_6_Esošārobeža0.png" /></td><td>Esošā robeža</td></tr><tr><td style="text-align: center;"><img src="legend/ADTAdamovasezersrobea_6_Precizētārobeža1.png" /></td><td>Precizētā robeža</td></tr><tr><td style="text-align: center;"><img src="legend/ADTAdamovasezersrobea_6_Plānotārobeža2.png" /></td><td>Plānotā robeža</td></tr></table>': layer_ADTAdamovasezersrobea_6,'Ainavzemes<br /><table><tr><td style="text-align: center;"><img src="legend/Ainavzemes_5_Adamovasciemaurbanizētāainavutelpa0.png" /></td><td>Adamovas ciema urbanizētā ainavu telpa</td></tr><tr><td style="text-align: center;"><img src="legend/Ainavzemes_5_Adamovasezerainesainavutelpa1.png" /></td><td>Adamovas ezeraines ainavu telpa</td></tr><tr><td style="text-align: center;"><img src="legend/Ainavzemes_5_Burzavaspaugurainesmežāruainavutelpa2.png" /></td><td>Burzavas pauguraines mežāru ainavu telpa</td></tr><tr><td style="text-align: center;"><img src="legend/Ainavzemes_5_Loboržumežainesainavutelpa3.png" /></td><td>Loboržu mežaines ainavu telpa</td></tr><tr><td style="text-align: center;"><img src="legend/Ainavzemes_5_Rūļasalasmežainesainavutelpa4.png" /></td><td>Rūļa salas mežaines ainavu telpa</td></tr><tr><td style="text-align: center;"><img src="legend/Ainavzemes_5_Vecborisovasārainesainavutelpa5.png" /></td><td>Vecborisovas āraines ainavu telpa</td></tr><tr><td style="text-align: center;"><img src="legend/Ainavzemes_5_Vizulīšaezerainesainavutelpa6.png" /></td><td>Vizulīša ezeraines ainavu telpa</td></tr></table>': layer_Ainavzemes_5,'Zemes lietojuma veids*<br /><table><tr><td style="text-align: center;"><img src="legend/Zemeslietojumaveids_4_Akmeņukrāvums0.png" /></td><td>Akmeņu krāvums</td></tr><tr><td style="text-align: center;"><img src="legend/Zemeslietojumaveids_4_Apbūve1.png" /></td><td>Apbūve</td></tr><tr><td style="text-align: center;"><img src="legend/Zemeslietojumaveids_4_Kapi2.png" /></td><td>Kapi</td></tr><tr><td style="text-align: center;"><img src="legend/Zemeslietojumaveids_4_Krūmājs3.png" /></td><td>Krūmājs</td></tr><tr><td style="text-align: center;"><img src="legend/Zemeslietojumaveids_4_Lauksaimniecībāizmantojamāzeme4.png" /></td><td>Lauksaimniecībā izmantojamā zeme</td></tr><tr><td style="text-align: center;"><img src="legend/Zemeslietojumaveids_4_Mežs5.png" /></td><td>Mežs</td></tr><tr><td style="text-align: center;"><img src="legend/Zemeslietojumaveids_4_Purvs6.png" /></td><td>Purvs</td></tr><tr><td style="text-align: center;"><img src="legend/Zemeslietojumaveids_4_Zemezemūdeņiem7.png" /></td><td>Zeme zem ūdeņiem</td></tr><tr><td style="text-align: center;"><img src="legend/Zemeslietojumaveids_4_Zemezemceļiem8.png" /></td><td>Zeme zem ceļiem</td></tr></table>': layer_Zemeslietojumaveids_4,'Lauksaimniecības kultūras<br /><table><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Aramzemēsētsstiebrzāļuunvailopbarībaszālaugutskproteīnaugumaisījums0.png" /></td><td>Aramzemē sēts stiebrzāļu un/vai lopbarības zālaugu (t.sk. proteīnaugu) maisījums</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_AugļukokiunogulājiizņemotzemenesjavienlaidusplatībāaugošasBSAsugaskatra03ha1.png" /></td><td>Augļu koki un ogulāji (izņemot zemenes), ja vienlaidus platībā augošas BSA sugas katra <0,3 ha</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Auzas2.png" /></td><td>Auzas</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Auzasarstiebrzāļuvaitauriņziežupasēju3.png" /></td><td>Auzas ar stiebrzāļu vai tauriņziežu pasēju</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Avenes4.png" /></td><td>Avenes</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Ābeles5.png" /></td><td>Ābeles</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Dažādikultūrauginelielāaramzplatībājebvairākikultūraugiaudzētivienlaiduslaukājakatrskultūraugs03ha6.png" /></td><td>Dažādi kultūraugi nelielā aramz. platībā jeb vairāki kultūraugi audzēti vienlaidus laukā, ja katrs kultūraugs <0,3ha</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_DārzeņijavienlaidusplatībāaugošasBSAsugaskatra03haunkopējāaramzplatība10ha7.png" /></td><td>Dārzeņi, ja vienlaidus platībā augošas BSA sugas katra <0,3 ha un kopējā  aramz. platība <10 ha</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Griķi8.png" /></td><td>Griķi</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Ilggadīgiezālāji9.png" /></td><td>Ilggadīgie zālāji</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Kartupeļikasciturnavminēti10.png" /></td><td>Kartupeļi, kas citur nav minēti</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Kviešivasaras11.png" /></td><td>Kvieši, vasaras</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Kviešiziemas12.png" /></td><td>Kvieši, ziemas</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Mieživasaras13.png" /></td><td>Mieži, vasaras</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Papuve14.png" /></td><td>Papuve</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Sarkanaisāboliņš15.png" /></td><td>Sarkanais āboliņš</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Tritikāleziemas16.png" /></td><td>Tritikāle, ziemas</td></tr><tr><td style="text-align: center;"><img src="legend/Lauksaimniecbaskultras_3_Zirņi17.png" /></td><td>Zirņi</td></tr></table>': layer_Lauksaimniecbaskultras_3,"Ortofoto karte": layer_Ortofotokarte_2,"Digitāls reljefa modelis": layer_Digitlsreljefamodelis_1,"Topogrāfiskā karte M1:10 000 ar reljefa ēnojumu": layer_TopogrfiskkarteM110000arreljefanojumu_0,}).addTo(map);L.control.scale({position: 'bottomleft', maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
